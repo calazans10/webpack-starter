@@ -1,7 +1,5 @@
 # Webpack Starter
 
-![Class Webpack](https://raw.github.com/calazans10/webpack-starter/master/src/img/logo.svg)
-
 ## Usage
 
 1. Clone this repository
