@@ -12,7 +12,8 @@ module.exports = merge(common, {
   devtool: 'inline-source-map',
   devServer: {
     compress: true,
-    contentBase: './build'
+    contentBase: './build',
+    host: '0.0.0.0'
   },
   plugins: [
     new Dotenv({
