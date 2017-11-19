@@ -1,7 +1,7 @@
 {
   "name": "webpack-starter",
   "version": "1.0.0",
-  "description": "My webpack starter",
+  "description": "A simple webpack starter",
   "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js",
