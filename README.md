@@ -14,7 +14,7 @@
 
         $ npm install
 
-4. Run the gulp command
+4. Run the server
 
         $ npm start
 
