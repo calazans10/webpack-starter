@@ -1,7 +1,7 @@
 html { box-sizing: border-box; }
 
 * {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-family: $base-font-family;
 }
 
 *,
@@ -18,22 +18,23 @@ body {
 }
 
 .app {
-  margin-top: 150px;
+  margin-top: rem(150);
 
   &__heading {
-    font-size: 50px;
+    font-size: em(50);
     font-weight: 100;
   }
 }
 
 .app-logo {
-  width: 300px;
-  margin: 0 auto;
-  padding: 30px;
+  width: rem(300);
+  margin-right: auto;
+  margin-left: auto;
+  padding: rem(30);
   border-radius: 50%;
 
   &__image {
-    width: 220px;
-    height: 220px;
+    width: rem(220);
+    height: rem(220);
   }
 }
