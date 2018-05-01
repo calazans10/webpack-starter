@@ -1,5 +1,5 @@
 import Greeter from './greeter';
-import '../css/main.scss';
+import '../styles/main.scss';
 
 $(() => {
   const greeter = new Greeter(process.env.NODE_ENV);
