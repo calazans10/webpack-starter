@@ -5,7 +5,7 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: {
-    main: './src/js/app.js',
+    main: './src/scripts/main.js',
     vendor: [
       'jquery'
     ]
