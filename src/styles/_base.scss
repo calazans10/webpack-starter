@@ -1,7 +1,6 @@
-html { box-sizing: border-box; }
-
-* {
-  font-family: $base-font-family;
+html {
+  font-size: 100%;
+  box-sizing: border-box;
 }
 
 *,
@@ -13,6 +12,7 @@ html { box-sizing: border-box; }
 body {
   background-color: #2b3a42;
   color: #fff;
+  font-family: $base-font-family;
   text-align: center;
   -webkit-font-smoothing: antialiased;
 }
