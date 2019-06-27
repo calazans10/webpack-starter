@@ -3,22 +3,30 @@ $base-font-size: 16;
 $base-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 
 // Functions
+@function strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+
+  @return $number;
+}
+
 @function em($pxval, $base: $base-font-size) {
   @if not unitless($pxval) {
-    $pxval: strip-units($pxval);
+    $pxval: strip-unit($pxval);
   }
   @if not unitless($base) {
-    $base: strip-units($base);
+    $base: strip-unit($base);
   }
   @return ($pxval / $base) * 1em;
 }
 
 @function rem($pxval, $base: $base-font-size) {
   @if not unitless($pxval) {
-    $pxval: strip-units($pxval);
+    $pxval: strip-unit($pxval);
   }
   @if not unitless($base) {
-    $base: strip-units($base);
+    $base: strip-unit($base);
   }
   @return ($pxval / $base) * 1rem;
 }
