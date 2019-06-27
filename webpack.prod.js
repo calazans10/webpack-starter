@@ -1,12 +1,13 @@
-const common = require('./webpack.common.js');
 const merge = require('webpack-merge');
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const path = require('path');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const safePostCssParser = require('postcss-safe-parser');
+const path = require('path');
+const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
-  mode: 'production',
+  mode: process.env.NODE_ENV,
   output: {
     filename: '[name].[chunkhash].js',
     path: path.resolve(__dirname, 'build'),
@@ -19,13 +20,19 @@ module.exports = merge(common, {
         parallel: true,
         sourceMap: true,
       }),
-      new OptimizeCSSAssetsPlugin({}),
+      new OptimizeCSSAssetsPlugin({
+        parser: safePostCssParser,
+        map: {
+          inline: false,
+          annotation: true,
+        }
+      }),
     ],
   },
   plugins: [
     new MiniCSSExtractPlugin({
-      filename: '[name].[contenthash].css',
-      chunkFilename: '[id].[contenthash].css',
+      filename: '[name].[hash].css',
+      chunkFilename: '[id].[hash].css',
     }),
   ],
 });
