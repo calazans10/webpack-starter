@@ -1,11 +1,43 @@
-/* eslint global-require: "off" */
-
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
+const path = require('path');
 
-const devMode = process.env.NODE_ENV !== 'production';
+const isEnvDevelopment = process.env.NODE_ENV === 'development';
+const isEnvProduction = process.env.NODE_ENV === 'production';
+
+const getStyleLoaders = cssOptions => {
+  const loaders = [
+    isEnvDevelopment && require.resolve('style-loader'),
+    isEnvProduction && {
+      loader: MiniCSSExtractPlugin.loader,
+      options: { hmr: isEnvDevelopment },
+    },
+    {
+      loader: require.resolve('css-loader'),
+      options: cssOptions,
+    },
+    {
+      loader: require.resolve('postcss-loader'),
+      options: {
+        ident: 'postcss',
+        plugins: () => [
+          require('postcss-flexbugs-fixes'),
+          require('postcss-preset-env')({
+            autoprefixer: {
+              flexbox: 'no-2009',
+            },
+            stage: 3,
+          }),
+        ],
+      },
+    },
+    { loader: require.resolve('sass-loader') },
+  ].filter(Boolean);
+
+  return loaders;
+};
 
 module.exports = {
   entry: {
@@ -20,30 +52,13 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['env'],
+            presets: ['@babel/preset-env'],
           },
         },
       },
       {
         test: /\.scss$/,
-        use: [
-          devMode ? 'style-loader' : MiniCSSExtractPlugin.loader,
-          { loader: 'css-loader', options: { importLoaders: 1, minimize: true } },
-          {
-            loader: 'postcss-loader',
-            options: {
-              ident: 'postcss',
-              plugins: () => [
-                require('postcss-flexbugs-fixes'),
-                require('autoprefixer')({
-                  browsers: ['>1%', 'last 4 versions', 'Firefox ESR', 'not ie < 9'],
-                  flexbox: 'no-2009',
-                }),
-              ],
-            },
-          },
-          'sass-loader',
-        ],
+        use: getStyleLoaders({ importLoaders: 1 }),
       },
       {
         test: /\.(html)$/,
@@ -57,7 +72,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|jpg|gif)$/,
+        test: /\.(png|jpg|gif)$/i,
         use: [
           {
             loader: 'url-loader',
@@ -74,7 +89,9 @@ module.exports = {
     ],
   },
   plugins: [
-    new CleanWebpackPlugin(['build']),
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: [path.join(process.cwd(), 'build/**/*')],
+    }),
     new HtmlWebpackPlugin({ template: './src/index.html' }),
     new webpack.ProvidePlugin({
       $: 'jquery',
