@@ -7,38 +7,6 @@ const path = require('path');
 const isEnvDevelopment = process.env.NODE_ENV === 'development';
 const isEnvProduction = process.env.NODE_ENV === 'production';
 
-const getStyleLoaders = cssOptions => {
-  const loaders = [
-    isEnvDevelopment && require.resolve('style-loader'),
-    isEnvProduction && {
-      loader: MiniCSSExtractPlugin.loader,
-      options: { hmr: isEnvDevelopment },
-    },
-    {
-      loader: require.resolve('css-loader'),
-      options: cssOptions,
-    },
-    {
-      loader: require.resolve('postcss-loader'),
-      options: {
-        ident: 'postcss',
-        plugins: () => [
-          require('postcss-flexbugs-fixes'),
-          require('postcss-preset-env')({
-            autoprefixer: {
-              flexbox: 'no-2009',
-            },
-            stage: 3,
-          }),
-        ],
-      },
-    },
-    { loader: require.resolve('sass-loader') },
-  ].filter(Boolean);
-
-  return loaders;
-};
-
 module.exports = {
   entry: {
     main: './src/scripts/main.js',
@@ -58,7 +26,33 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: getStyleLoaders({ importLoaders: 1 }),
+        use: [
+          isEnvDevelopment && require.resolve('style-loader'),
+          isEnvProduction && {
+            loader: MiniCSSExtractPlugin.loader,
+            options: { hmr: isEnvDevelopment },
+          },
+          {
+            loader: require.resolve('css-loader'),
+            options: { importLoaders: 1 },
+          },
+          {
+            loader: require.resolve('postcss-loader'),
+            options: {
+              ident: 'postcss',
+              plugins: () => [
+                require('postcss-flexbugs-fixes'),
+                require('postcss-preset-env')({
+                  autoprefixer: {
+                    flexbox: 'no-2009',
+                  },
+                  stage: 3,
+                }),
+              ],
+            },
+          },
+          { loader: require.resolve('sass-loader') },
+        ].filter(Boolean),
       },
       {
         test: /\.(html)$/,
