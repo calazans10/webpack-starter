@@ -29,7 +29,7 @@
     "normalize.css": "^8.0.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.4",
+    "@babel/core": "^7.7.2",
     "@babel/preset-env": "^7.6.3",
     "@babel/register": "^7.6.2",
     "babel-eslint": "^10.0.2",
