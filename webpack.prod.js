@@ -1,7 +1,7 @@
 const merge = require('webpack-merge');
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const safePostCssParser = require('postcss-safe-parser');
 const path = require('path');
 const common = require('./webpack.common.js');
@@ -15,7 +15,7 @@ module.exports = merge(common, {
   devtool: 'source-map',
   optimization: {
     minimizer: [
-      new UglifyJSPlugin({
+      new TerserPlugin({
         cache: true,
         parallel: true,
         sourceMap: true,
@@ -25,7 +25,7 @@ module.exports = merge(common, {
         map: {
           inline: false,
           annotation: true,
-        }
+        },
       }),
     ],
   },
